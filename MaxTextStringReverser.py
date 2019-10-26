@@ -37,6 +37,7 @@ TODO: Unit Tests
     Happy path simple
     Happy path huge input
     File not found
+    Windows vs Linux new line
     Args not provided
     Numbers included
     Non words
@@ -65,12 +66,13 @@ def text_reverse(filename):
     " Call function to retrieve largest word "
     max_word = find_largest_word(list_of_words)
     " Print word and word reversed (transposed) "
-    print(f'{max_word} {max_word[::-1]}')
+    print(f'{max_word}')
+    print(f'{max_word[::-1]}')
 
 
 def read_file_to_list(filename):
     """Open file"""
-    with open(filename) as f:
+    with open(filename, 'r') as f:
         " Read file, split by lines, deduplicate using a set, return as a list"
         " TODO: filter non words "
         return list(set(f.read().splitlines()))
