@@ -1,4 +1,5 @@
 import argparse
+import os
 
 """
 The Coding Challenge:
@@ -29,7 +30,8 @@ edcba
 TODO: Implementation
     //HappyPath
     //Add Argparse for CLI
-    Handle EOF, File not found and access denied 
+    //Handle EOF, File not found and access denied 
+    //Handle empty file
     Ignore invalid words
     Handle no valid words
     
@@ -60,25 +62,34 @@ TODO: Code Comments with O() notations for time and space"
 
 
 def text_reverse(filename):
-    """TODO: Get console args for file name """
-    " Get words from hardcoded filename and read to list "
-    list_of_words = read_file_to_list(filename)
-    " Call function to retrieve largest word "
-    max_word = find_largest_word(list_of_words)
-    " Print word and word reversed (transposed) "
-    print(f'{max_word}')
-    print(f'{max_word[::-1]}')
+    " Check that file is valid "
+    if check_file(filename):
+        list_of_words = read_file_to_list(filename)
+        " Call function to retrieve largest word "
+        max_word = find_largest_word(list_of_words)
+        " Print word and word reversed (transposed) "
+        print(f'{max_word}')
+        print(f'{max_word[::-1]}')
+
+
+def check_file(filename):
+    if os.path.exists(filename) and os.access(filename, os.R_OK):
+        return True
+    else:
+        print(f'File: {filename} does not exist or is not readable.')
+        return False
 
 
 def read_file_to_list(filename):
     """Open file"""
     with open(filename, 'r') as f:
         " Read file, split by lines, deduplicate using a set, return as a list"
-        " TODO: filter non words "
         return list(set(f.read().splitlines()))
 
 
 def find_largest_word(list_of_words):
+    " TODO: filter non words "
+
     """Return the maximum word by length"""
     return max(list_of_words, key=len)
 
