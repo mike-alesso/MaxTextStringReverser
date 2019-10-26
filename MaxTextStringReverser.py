@@ -1,3 +1,5 @@
+import argparse
+
 """
 The Coding Challenge:
 
@@ -26,7 +28,7 @@ edcba
 """ 
 TODO: Implementation
     //HappyPath
-    Add Argparse for CLI
+    //Add Argparse for CLI
     Handle EOF, File not found and access denied 
     Ignore invalid words
     Handle no valid words
@@ -40,7 +42,6 @@ TODO: Unit Tests
     Non words
         Symbols
         Emoji
-        
     Chinese words
     RTL language words like Hebrew and Arabic
     Unicode Words - valid words
@@ -50,17 +51,17 @@ TODO: Readme
     Assumptions:
     - Each line has only 1 word
     - This will be initiated from the console
-    - 
+    - Words with punctuation 
     How to run program
     How to run tests
 TODO: Code Comments with O() notations for time and space"
 """
 
 
-def text_reverse():
+def text_reverse(filename):
     """TODO: Get console args for file name """
     " Get words from hardcoded filename and read to list "
-    list_of_words = read_file_to_list('test.txt')
+    list_of_words = read_file_to_list(filename)
     " Call function to retrieve largest word "
     max_word = find_largest_word(list_of_words)
     " Print word and word reversed (transposed) "
@@ -81,4 +82,7 @@ def find_largest_word(list_of_words):
 
 
 if __name__ == "__main__":
-    text_reverse()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename", help="Filename for the strings you want to provide", type=str)
+    args = parser.parse_args()
+    text_reverse(args.filename)
