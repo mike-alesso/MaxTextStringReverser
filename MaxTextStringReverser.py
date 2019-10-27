@@ -29,34 +29,27 @@ edcba
 """
 
 """ 
-TODO: Implementation
-    //HappyPath
-    //Add Argparse for CLI
-    //Handle EOF, File not found and access denied 
-    //Handle empty file
-    //Ignore invalid words
-    Handle no valid words
     
 TODO: Unit Tests 
     //Happy path simple
     Happy path huge input
     //File not found
-    Windows vs Linux new line
-    Args not provided
+    //Windows vs Linux new line
     //Numbers included
-    Non words
+    //Non words
         //Symbols
-        Emoji
-    Chinese words
-    RTL language words like Hebrew and Arabic
-    Unicode Words - valid words
-    Unicode Chars - not words
+        //Emoji
+    //Chinese words
+    //RTL language words like Hebrew and Arabic
+    //Unicode Words - valid words
+    //Unicode Chars - not words
 TODO: Docstrings
 TODO: Readme 
     Assumptions:
     - Each line has only 1 word
     - This will be initiated from the console
-    - Words are Ascii A-Z, a-z.
+    - Words only contain language characters.
+    - File is in UTF-8 encoding or parsable in UTF-8 (ASCII)
     How to run program
     How to run tests
 TODO: Code Comments with O() notations for time and space"
@@ -64,20 +57,35 @@ TODO: Code Comments with O() notations for time and space"
 
 
 def filter_non_words(word):
-    "Filtering words that have characters not found in a word"
-    return not bool(re.search(r'[^A-Za-z]', word))
+    """
+    Filtering words that have characters not found in a word
+
+    Extended description of function.
+
+    Parameters:
+    arg1 (str): Word to be checked
+
+    Returns:
+    bool: Returns true if only letters are present
+
+    """
+
+    regex = r'[\W0-9]'
+    return not bool(re.search(regex, word, re.MULTILINE))
 
 
 def find_largest_word(list_of_words):
-    " TODO: filter non words "
-    result = filter(lambda w: filter_non_words(w), list_of_words)
+    result = list(filter(lambda w: filter_non_words(w), list_of_words))
     """"Return the maximum word by length"""
-    return max(result, key=len)
+    if result:
+        return max(result, key=len)
+    else:
+        return
 
 
 def read_file_to_list(filename):
     """Open file"""
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding='utf8') as f:
         " Read file, split by lines, deduplicate using a set and return "
         return set(f.read().splitlines())
 
@@ -99,11 +107,15 @@ def text_reverse(filename):
         list_of_words_stripped = map(str.strip, list_of_words)
         " Call function to retrieve largest word "
         max_word = find_largest_word(list_of_words_stripped)
-        max_word_reversed = max_word[::-1]
         " Print word and word reversed (transposed) "
-        print(f'{max_word}')
-        print(f'{max_word_reversed}')
-        return max_word, max_word_reversed
+        if max_word:
+            print(f'{max_word}')
+            max_word_reversed = max_word[::-1]
+            print(f'{max_word_reversed}')
+            return max_word, max_word_reversed
+        else:
+            print('No valid words found in file.')
+            return
 
 
 def main():
