@@ -2,15 +2,10 @@ import argparse
 import os
 import re
 import sys
-""" 
-
-
-"""
-
 
 def filter_non_words(word):
     """
-    Filtering words that have characters not found in a word
+    Filtering words that have characters or symbols not found in a word
 
     Parameters:
     arg1 (str): Word to be checked
