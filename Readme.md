@@ -12,11 +12,23 @@ This commandline tool will take a txt file with words and print the longest word
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Windows
 ```
 python -m venv venv
 . venv/bin/activate
-python -m pip install -e .
-mtsr *filename you want to use*
+pip install --requirement requirements.txt
+python3 -m pip install -e .
+mstr *FILENAME*
+```
+
+Linux
+```
+sudo apt-get install python3-venv
+python3 -m venv venv
+. venv/bin/activate
+pip install --requirement requirements.txt
+python3 -m pip install -e .
+mtsr *FILENAME*
 ```
 
 Example
@@ -48,13 +60,29 @@ This tool depends on the following to be setup.
 ## Running the tests
 
 We will create a new virtualenv here and run the tests
+
+
+Windows
 ```
 python -m venv venv
 . venv/bin/activate
-python -m pip install -e .
+pip install --requirement requirements.txt
+python3 -m pip install -e .
 mtsr --help
-python -m mtsr --help
-python -m pytest -v
+python3 -m mtsr --help
+python3 -m pytest -v
+```
+
+Linux
+```
+sudo apt-get install python3-venv
+python3 -m venv venv
+. venv/bin/activate
+pip install --requirement requirements.txt
+python3 -m pip install -e .
+mtsr --help
+python3 -m mtsr --help
+python3 -m pytest -v
 ```
 
 ## Built With
