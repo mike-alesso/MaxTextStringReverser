@@ -2,57 +2,9 @@ import argparse
 import os
 import re
 import sys
-
-"""
-The Coding Challenge:
-
-For this challenge, you can use node js, java, python, go, or whatever language you are most comfortable with,
-to develop code that meets the challenge requirements listed below:
-
-1. Read input from a file of words;
-2. Find the largest word in the file
-3. Transpose the letters in the largest word
-4. Show the largest word and the largest word transposed
-5. Demonstrate positive and negative test cases
-6. Ensure you document code and instructions for building and running based on the response best practices above
-
-Example Input File:
-a
-ab
-abc
-abcd
-abcde
-
-Output to console:
-abcde
-edcba
-"""
-
 """ 
-    
-TODO: Unit Tests 
-    //Happy path simple
-    Happy path huge input
-    //File not found
-    //Windows vs Linux new line
-    //Numbers included
-    //Non words
-        //Symbols
-        //Emoji
-    //Chinese words
-    //RTL language words like Hebrew and Arabic
-    //Unicode Words - valid words
-    //Unicode Chars - not words
-TODO: Docstrings
-TODO: Readme 
-    Assumptions:
-    - Each line has only 1 word
-    - This will be initiated from the console
-    - Words only contain language characters.
-    - File is in UTF-8 encoding or parsable in UTF-8 (ASCII)
-    How to run program
-    How to run tests
-TODO: Code Comments with O() notations for time and space"
+
+
 """
 
 
@@ -60,14 +12,11 @@ def filter_non_words(word):
     """
     Filtering words that have characters not found in a word
 
-    Extended description of function.
-
     Parameters:
     arg1 (str): Word to be checked
 
     Returns:
     bool: Returns true if only letters are present
-
     """
 
     regex = r'[\W0-9]'
@@ -75,8 +24,16 @@ def filter_non_words(word):
 
 
 def find_largest_word(list_of_words):
+    """
+    Return the longest word and filter for non-words
+
+    Parameters:
+    arg1 (List(str)): List of words to be checked
+
+    Returns:
+    str or None: Largest word or None
+    """
     result = list(filter(lambda w: filter_non_words(w), list_of_words))
-    """"Return the maximum word by length"""
     if result:
         return max(result, key=len)
     else:
@@ -84,13 +41,29 @@ def find_largest_word(list_of_words):
 
 
 def read_file_to_list(filename):
-    """Open file"""
+    """
+    Read a given file and split by lines to a set
+
+    Parameters:
+    arg1 (str): name of file to be parsed
+
+    Returns:
+    Set(str): set of lines from the file
+    """
     with open(filename, 'r', encoding='utf8') as f:
-        " Read file, split by lines, deduplicate using a set and return "
         return set(f.read().splitlines())
 
 
 def check_file(filename):
+    """
+    Check if a given file exists and can be opened
+
+    Parameters:
+    arg1 (str): name of file to be checked
+
+    Returns:
+    Bool: True or false depending on if file can be opened
+    """
     if os.path.exists(filename) and os.access(filename, os.R_OK):
         return True
     else:
@@ -99,7 +72,17 @@ def check_file(filename):
 
 
 def text_reverse(filename):
-    " Check that file is valid "
+    """
+    Attempts to find the largest word in a string and print it to the console
+
+    Parameters:
+    arg1 (str): name of file to be processed
+
+    Returns:
+    max_word: Largest word in file
+    max_word_reversed: Largest word reversed
+    None: returned if operation is not possible
+    """
     if check_file(filename):
         " Read file and turn it into a list by line "
         list_of_words = read_file_to_list(filename)
@@ -124,6 +107,15 @@ def main():
 
 
 def parse_args(args):
+    """
+    Parses commandline args
+
+    Parameters:
+    arg1 (str): name of file to be processed
+
+    Returns:
+    args: arguments object for arguments given at commandline
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", help="Filename for the strings you want to provide", type=str)
     return parser.parse_args(args)

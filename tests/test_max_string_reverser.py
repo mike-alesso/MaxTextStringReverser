@@ -1,13 +1,14 @@
-from MaxTextStringReverser import *
+from mtsr.mtsr import *
 
 
 def test_find_largest_word():
+    """ Find the longest word in a list """
     words = ["a", "ab", "abc", "abcd", "abcde"]
     assert find_largest_word(words) == "abcde"
 
 
 def test_open_file_and_process_simple(fs):
-    """ Fake file content """
+    """ Fake file content simple content """
     file_content = """AbCdEfGhIj\nAbCfGhIj\nw\nwo\nwor\nword"""
     create_file(file_content, fs)
     max_string, max_string_reversed = text_reverse("/var/data/test1.txt")
@@ -16,7 +17,7 @@ def test_open_file_and_process_simple(fs):
 
 
 def test_open_file_linux_newline(fs):
-    """ Fake file content """
+    """ Fake file content with linux newlines"""
     file_content = """AbCdEfGhIj\r\nAbCfGhIj\r\nw\r\nwo\r\nwor\r\nword"""
     create_file(file_content, fs)
     max_string, max_string_reversed = text_reverse("/var/data/test1.txt")
@@ -25,7 +26,7 @@ def test_open_file_linux_newline(fs):
 
 
 def test_open_file_complex(fs):
-    """ Fake file content """
+    """ Fake file content with complex words and non words """
     file_content = """4564642564\nAbCfGhIj\n/*/*/*!@#$%^&dfgdfgdg$%^$^$\nw\nwo\nwor\nword"""
     create_file(file_content, fs)
     max_string, max_string_reversed = text_reverse("/var/data/test1.txt")
@@ -53,6 +54,7 @@ def test_open_file_and_reverse_unicode(fs):
 
 
 def test_open_file_doesnt_exist(fs):
+    """ Test opening a non existent file """
     fs.create_file("/var/data/test1.txt")
     assert check_file("/var/data/nonexistent.txt") is False
 
@@ -80,12 +82,13 @@ def test_invalid_string():
 
 
 def test_parser():
+    """ Test argument parser """
     args = parse_args(['testFilename'])
     assert args.filename is 'testFilename'
 
 
 def create_file(file_content, fs):
-    " Fake file "
+    """ Create fake file helper """
     fs.create_file("/var/data/test1.txt", encoding='utf8')
     assert os.path.exists("/var/data/test1.txt")
     file = open("/var/data/test1.txt", "w", encoding='utf8')
