@@ -1,5 +1,7 @@
 import argparse
 import os
+import re
+import sys
 
 """
 The Coding Challenge:
@@ -32,18 +34,18 @@ TODO: Implementation
     //Add Argparse for CLI
     //Handle EOF, File not found and access denied 
     //Handle empty file
-    Ignore invalid words
+    //Ignore invalid words
     Handle no valid words
     
 TODO: Unit Tests 
-    Happy path simple
+    //Happy path simple
     Happy path huge input
-    File not found
+    //File not found
     Windows vs Linux new line
     Args not provided
-    Numbers included
+    //Numbers included
     Non words
-        Symbols
+        //Symbols
         Emoji
     Chinese words
     RTL language words like Hebrew and Arabic
@@ -54,22 +56,30 @@ TODO: Readme
     Assumptions:
     - Each line has only 1 word
     - This will be initiated from the console
-    - Words with punctuation 
+    - Words are Ascii A-Z, a-z.
     How to run program
     How to run tests
 TODO: Code Comments with O() notations for time and space"
 """
 
 
-def text_reverse(filename):
-    " Check that file is valid "
-    if check_file(filename):
-        list_of_words = read_file_to_list(filename)
-        " Call function to retrieve largest word "
-        max_word = find_largest_word(list_of_words)
-        " Print word and word reversed (transposed) "
-        print(f'{max_word}')
-        print(f'{max_word[::-1]}')
+def filter_non_words(word):
+    "Filtering words that have characters not found in a word"
+    return not bool(re.search(r'[^A-Za-z]', word))
+
+
+def find_largest_word(list_of_words):
+    " TODO: filter non words "
+    result = filter(lambda w: filter_non_words(w), list_of_words)
+    """"Return the maximum word by length"""
+    return max(result, key=len)
+
+
+def read_file_to_list(filename):
+    """Open file"""
+    with open(filename, 'r') as f:
+        " Read file, split by lines, deduplicate using a set and return "
+        return set(f.read().splitlines())
 
 
 def check_file(filename):
@@ -80,22 +90,33 @@ def check_file(filename):
         return False
 
 
-def read_file_to_list(filename):
-    """Open file"""
-    with open(filename, 'r') as f:
-        " Read file, split by lines, deduplicate using a set, return as a list"
-        return list(set(f.read().splitlines()))
+def text_reverse(filename):
+    " Check that file is valid "
+    if check_file(filename):
+        " Read file and turn it into a list by line "
+        list_of_words = read_file_to_list(filename)
+        " Strip leading and trailing whitespace from the words in the list "
+        list_of_words_stripped = map(str.strip, list_of_words)
+        " Call function to retrieve largest word "
+        max_word = find_largest_word(list_of_words_stripped)
+        max_word_reversed = max_word[::-1]
+        " Print word and word reversed (transposed) "
+        print(f'{max_word}')
+        print(f'{max_word_reversed}')
+        return max_word, max_word_reversed
 
 
-def find_largest_word(list_of_words):
-    " TODO: filter non words "
+def main():
+    args = parse_args(sys.argv[1:])
+    text_reverse(args.filename)
 
-    """Return the maximum word by length"""
-    return max(list_of_words, key=len)
+
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename", help="Filename for the strings you want to provide", type=str)
+    return parser.parse_args(args)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("filename", help="Filename for the strings you want to provide", type=str)
-    args = parser.parse_args()
-    text_reverse(args.filename)
+    main()
+
