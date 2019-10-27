@@ -19,8 +19,9 @@ python -m pip install -e .
 mtsr *filename you want to use*
 ```
 
-Example:
+Example
 
+Input:
 test.txt
 ```
 a
@@ -29,7 +30,7 @@ abc
 abcd
 abcde
 ```
-
+Console usage and output:
 ```
 mtsr test.txt
 abcde
@@ -46,7 +47,7 @@ This tool depends on the following to be setup.
 
 ## Running the tests
 
-### We will create a new virtualenv here and run the tests
+We will create a new virtualenv here and run the tests
 ```
 python -m venv venv
 . venv/bin/activate
